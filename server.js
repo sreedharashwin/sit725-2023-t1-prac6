@@ -1,5 +1,6 @@
 const express= require("express");
 const res = require("express/lib/response");
+const { parse } = require("request/lib/cookies");
 const app= express();
 
 app.get('/addTwoNumbers/:firstNumber/:secondNumber', function(req,res,next){
@@ -12,8 +13,21 @@ app.get('/addTwoNumbers/:firstNumber/:secondNumber', function(req,res,next){
     else { res.json({result: result, statusCode: 200}).status(200) } 
   })
 
+  app.get('/multiplyTwoNumbers/:first/:second', function(req,res,next){
+    var first = parseInt(req.params.first);
+    var second = parseInt(req.params.second);
+    var product = first * second || null ;
+    if(product == null){
+      res.json({result:product, statusCode:400}).status(400);
+    }
+    else{
+      res.json({result:product, statusCode:200}).status(200);
+
+    }
+  });
+
 
 const port=8080;
 app.listen(port,()=> {
-    console.log("hello i'm listening to port "+port);
+    console.log("Port: "+port);
 })
